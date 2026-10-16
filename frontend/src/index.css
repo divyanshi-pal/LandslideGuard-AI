@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+/* ----------------------------------------------------------------------------
+   LandslideGuard design tokens
+   White surfaces, navy text, forest-green accent. Risk levels keep a fixed
+   status palette and are always shown with a text label.
+---------------------------------------------------------------------------- */
+@theme {
+  --font-sans: "Inter", "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Forest green (brand accent) */
+  --color-brand-50: #eef8f1;
+  --color-brand-100: #d6eedd;
+  --color-brand-200: #addcbb;
+  --color-brand-300: #7fc495;
+  --color-brand-400: #4ea66b;
+  --color-brand-500: #2f8a4f;
+  --color-brand-600: #23733f;
+  --color-brand-700: #1c5f34;
+  --color-brand-800: #174c2b;
+  --color-brand-900: #123b22;
+
+  /* Navy (text and dark surfaces) */
+  --color-navy-700: #1f3460;
+  --color-navy-800: #15264a;
+  --color-navy-900: #0b1730;
+
+  /* Risk levels (status palette) */
+  --color-risk-low: #0ca30c;
+  --color-risk-moderate: #fab219;
+  --color-risk-high: #ec835a;
+  --color-risk-veryhigh: #d03b3b;
+
+  /* Text, lines and surfaces */
+  --color-ink: #0f1f3d;
+  --color-ink-2: #3d4b66;
+  --color-ink-muted: #66728a;
+  --color-line: #e4e9f0;
+  --color-grid: #e3e8ef;
+  --color-plane: #f6f8fb;
+  --color-series-1: #2a78d6;
+
+  --shadow-card: 0 1px 2px rgb(15 31 61 / 0.04), 0 4px 18px rgb(15 31 61 / 0.06);
+  --shadow-pop: 0 10px 40px rgb(15 31 61 / 0.18);
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background: var(--color-plane);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-brand-100);
+}
+
+/* Leaflet sits inside rounded cards; keep its panes below the sticky header. */
+.leaflet-container {
+  font: inherit;
+  z-index: 0;
+}
+
+.leaflet-popup-content {
+  margin: 12px 14px;
+  min-width: 220px;
+}
+
+/* Citizen incident markers: diamond = citizen report, fill = verification status (always explained in a legend). */
+.incident-marker {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: rotate(45deg);
+  border: 2px solid #fff;
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px rgb(15 31 61 / 0.4), 0 1px 4px rgb(15 31 61 / 0.25);
+}
+.incident-marker.status-verified { background: #2a78d6; }
+.incident-marker.status-resolved { background: #66728a; }
+.incident-marker.status-pending { background: #fff; border: 3px solid #2a78d6; }
+.incident-marker.status-rejected { background: #e3e8ef; border: 2px solid #66728a; }
+.incident-marker.is-selected { box-shadow: 0 0 0 3px #fab219, 0 0 0 5px rgb(15 31 61 / 0.5); }
+
+/* Location picker pin */
+.pick-marker {
+  display: block;
+  width: 22px;
+  height: 22px;
+  border-radius: 9999px;
+  background: var(--color-brand-600);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 1px rgb(15 31 61 / 0.45), 0 2px 6px rgb(15 31 61 / 0.35);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 disabled:cursor-not-allowed disabled:opacity-60;
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-line bg-white shadow-(--shadow-card);
+  }
+  .btn-primary {
+    @apply btn bg-brand-600 text-white shadow-sm hover:bg-brand-700 active:bg-brand-800;
+  }
+  .btn-secondary {
+    @apply btn border border-line bg-white text-ink shadow-sm hover:border-brand-300 hover:bg-brand-50;
+  }
+  .btn-ghost {
+    @apply btn px-3 text-ink-2 hover:bg-brand-50 hover:text-brand-800;
+  }
+  .btn-danger {
+    @apply btn border border-red-200 bg-white text-red-700 hover:bg-red-50;
+  }
+  .btn-sm {
+    @apply rounded-lg px-3 py-1.5 text-xs;
+  }
+  .input {
+    @apply block w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm text-ink shadow-sm transition placeholder:text-ink-muted hover:border-brand-200 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/15 focus:outline-none aria-[invalid=true]:border-red-400 aria-[invalid=true]:ring-red-500/15 disabled:bg-plane disabled:text-ink-muted;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-ink;
+  }
+  .eyebrow {
+    @apply text-xs font-semibold tracking-wider text-brand-700 uppercase;
+  }
+  .table-basic {
+    @apply w-full text-left text-sm;
+  }
+  .table-basic th {
+    @apply border-b border-line bg-plane/70 px-4 py-2.5 text-xs font-semibold tracking-wide text-ink-muted uppercase;
+  }
+  .table-basic td {
+    @apply border-b border-line/70 px-4 py-3 align-middle;
+  }
+  .skeleton {
+    @apply rounded-md bg-grid;
+    background-image: linear-gradient(90deg, transparent 0, rgb(255 255 255 / 0.6) 50%, transparent 100%);
+    background-size: 400px 100%;
+    background-repeat: no-repeat;
+    animation: shimmer 1.4s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+  * { scroll-behavior: auto !important; }
+}

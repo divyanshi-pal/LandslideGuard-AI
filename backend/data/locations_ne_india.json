@@ -1,0 +1,63 @@
+{
+  "_meta": {
+    "description": "Monitoring locations (district headquarters / towns) across the eight Northeast Indian states, used as sample data for LandslideGuard AI.",
+    "coordinates": "Approximate town-centre coordinates (WGS84), suitable for map display only.",
+    "terrain_attributes": "DEMO ESTIMATES. slope_deg, soil_type, vegetation_ndvi and slope_modified are illustrative values chosen for demonstration. They were NOT measured or derived from a DEM, soil map or satellite imagery. Replace them with DEM / remote-sensing derived values before any real use.",
+    "attributes_source": "demo-estimate"
+  },
+  "locations": [
+    {"name": "Guwahati", "district": "Kamrup Metropolitan", "state": "Assam", "latitude": 26.144, "longitude": 91.736, "slope_deg": 12, "soil_type": "loamy", "vegetation_ndvi": 0.45, "slope_modified": true},
+    {"name": "Haflong", "district": "Dima Hasao", "state": "Assam", "latitude": 25.169, "longitude": 93.016, "slope_deg": 32, "soil_type": "clay", "vegetation_ndvi": 0.65, "slope_modified": true},
+    {"name": "Diphu", "district": "Karbi Anglong", "state": "Assam", "latitude": 25.843, "longitude": 93.431, "slope_deg": 14, "soil_type": "loamy", "vegetation_ndvi": 0.6, "slope_modified": false},
+    {"name": "Silchar", "district": "Cachar", "state": "Assam", "latitude": 24.833, "longitude": 92.779, "slope_deg": 5, "soil_type": "clay", "vegetation_ndvi": 0.5, "slope_modified": false},
+    {"name": "Tezpur", "district": "Sonitpur", "state": "Assam", "latitude": 26.633, "longitude": 92.8, "slope_deg": 6, "soil_type": "sandy", "vegetation_ndvi": 0.5, "slope_modified": false},
+    {"name": "Dibrugarh", "district": "Dibrugarh", "state": "Assam", "latitude": 27.472, "longitude": 94.912, "slope_deg": 3, "soil_type": "sandy", "vegetation_ndvi": 0.55, "slope_modified": false},
+
+    {"name": "Itanagar", "district": "Papum Pare", "state": "Arunachal Pradesh", "latitude": 27.084, "longitude": 93.605, "slope_deg": 28, "soil_type": "loamy", "vegetation_ndvi": 0.7, "slope_modified": true},
+    {"name": "Tawang", "district": "Tawang", "state": "Arunachal Pradesh", "latitude": 27.586, "longitude": 91.866, "slope_deg": 34, "soil_type": "rock", "vegetation_ndvi": 0.45, "slope_modified": true},
+    {"name": "Bomdila", "district": "West Kameng", "state": "Arunachal Pradesh", "latitude": 27.264, "longitude": 92.424, "slope_deg": 31, "soil_type": "loamy", "vegetation_ndvi": 0.6, "slope_modified": true},
+    {"name": "Ziro", "district": "Lower Subansiri", "state": "Arunachal Pradesh", "latitude": 27.545, "longitude": 93.831, "slope_deg": 18, "soil_type": "loamy", "vegetation_ndvi": 0.7, "slope_modified": false},
+    {"name": "Pasighat", "district": "East Siang", "state": "Arunachal Pradesh", "latitude": 28.066, "longitude": 95.326, "slope_deg": 10, "soil_type": "sandy", "vegetation_ndvi": 0.7, "slope_modified": false},
+    {"name": "Aalo", "district": "West Siang", "state": "Arunachal Pradesh", "latitude": 28.169, "longitude": 94.8, "slope_deg": 27, "soil_type": "loamy", "vegetation_ndvi": 0.75, "slope_modified": true},
+    {"name": "Tezu", "district": "Lohit", "state": "Arunachal Pradesh", "latitude": 27.917, "longitude": 96.167, "slope_deg": 12, "soil_type": "sandy", "vegetation_ndvi": 0.7, "slope_modified": false},
+    {"name": "Daporijo", "district": "Upper Subansiri", "state": "Arunachal Pradesh", "latitude": 27.985, "longitude": 94.222, "slope_deg": 30, "soil_type": "clay", "vegetation_ndvi": 0.75, "slope_modified": true},
+
+    {"name": "Imphal", "district": "Imphal West", "state": "Manipur", "latitude": 24.817, "longitude": 93.937, "slope_deg": 6, "soil_type": "clay", "vegetation_ndvi": 0.5, "slope_modified": false},
+    {"name": "Tamenglong", "district": "Tamenglong", "state": "Manipur", "latitude": 24.99, "longitude": 93.5, "slope_deg": 33, "soil_type": "clay", "vegetation_ndvi": 0.7, "slope_modified": true},
+    {"name": "Ukhrul", "district": "Ukhrul", "state": "Manipur", "latitude": 25.05, "longitude": 94.36, "slope_deg": 27, "soil_type": "loamy", "vegetation_ndvi": 0.6, "slope_modified": true},
+    {"name": "Senapati", "district": "Senapati", "state": "Manipur", "latitude": 25.27, "longitude": 94.02, "slope_deg": 25, "soil_type": "loamy", "vegetation_ndvi": 0.6, "slope_modified": true},
+    {"name": "Churachandpur", "district": "Churachandpur", "state": "Manipur", "latitude": 24.333, "longitude": 93.683, "slope_deg": 18, "soil_type": "loamy", "vegetation_ndvi": 0.6, "slope_modified": false},
+
+    {"name": "Shillong", "district": "East Khasi Hills", "state": "Meghalaya", "latitude": 25.578, "longitude": 91.893, "slope_deg": 22, "soil_type": "loamy", "vegetation_ndvi": 0.55, "slope_modified": true},
+    {"name": "Sohra (Cherrapunji)", "district": "East Khasi Hills", "state": "Meghalaya", "latitude": 25.271, "longitude": 91.731, "slope_deg": 26, "soil_type": "clay", "vegetation_ndvi": 0.4, "slope_modified": true},
+    {"name": "Tura", "district": "West Garo Hills", "state": "Meghalaya", "latitude": 25.514, "longitude": 90.203, "slope_deg": 20, "soil_type": "loamy", "vegetation_ndvi": 0.65, "slope_modified": false},
+    {"name": "Jowai", "district": "West Jaintia Hills", "state": "Meghalaya", "latitude": 25.45, "longitude": 92.2, "slope_deg": 16, "soil_type": "loamy", "vegetation_ndvi": 0.5, "slope_modified": true},
+    {"name": "Nongstoin", "district": "West Khasi Hills", "state": "Meghalaya", "latitude": 25.517, "longitude": 91.267, "slope_deg": 20, "soil_type": "loamy", "vegetation_ndvi": 0.6, "slope_modified": false},
+    {"name": "Nongpoh", "district": "Ri-Bhoi", "state": "Meghalaya", "latitude": 25.9, "longitude": 91.88, "slope_deg": 21, "soil_type": "loamy", "vegetation_ndvi": 0.65, "slope_modified": true},
+
+    {"name": "Aizawl", "district": "Aizawl", "state": "Mizoram", "latitude": 23.727, "longitude": 92.718, "slope_deg": 34, "soil_type": "clay", "vegetation_ndvi": 0.6, "slope_modified": true},
+    {"name": "Lunglei", "district": "Lunglei", "state": "Mizoram", "latitude": 22.88, "longitude": 92.735, "slope_deg": 31, "soil_type": "clay", "vegetation_ndvi": 0.65, "slope_modified": true},
+    {"name": "Champhai", "district": "Champhai", "state": "Mizoram", "latitude": 23.474, "longitude": 93.326, "slope_deg": 18, "soil_type": "loamy", "vegetation_ndvi": 0.6, "slope_modified": false},
+    {"name": "Serchhip", "district": "Serchhip", "state": "Mizoram", "latitude": 23.3, "longitude": 92.85, "slope_deg": 28, "soil_type": "loamy", "vegetation_ndvi": 0.7, "slope_modified": true},
+    {"name": "Kolasib", "district": "Kolasib", "state": "Mizoram", "latitude": 24.224, "longitude": 92.676, "slope_deg": 24, "soil_type": "clay", "vegetation_ndvi": 0.7, "slope_modified": true},
+    {"name": "Siaha", "district": "Siaha", "state": "Mizoram", "latitude": 22.49, "longitude": 92.98, "slope_deg": 29, "soil_type": "clay", "vegetation_ndvi": 0.7, "slope_modified": true},
+
+    {"name": "Kohima", "district": "Kohima", "state": "Nagaland", "latitude": 25.674, "longitude": 94.11, "slope_deg": 30, "soil_type": "loamy", "vegetation_ndvi": 0.6, "slope_modified": true},
+    {"name": "Dimapur", "district": "Dimapur", "state": "Nagaland", "latitude": 25.906, "longitude": 93.727, "slope_deg": 4, "soil_type": "sandy", "vegetation_ndvi": 0.45, "slope_modified": false},
+    {"name": "Mokokchung", "district": "Mokokchung", "state": "Nagaland", "latitude": 26.326, "longitude": 94.514, "slope_deg": 26, "soil_type": "clay", "vegetation_ndvi": 0.65, "slope_modified": true},
+    {"name": "Wokha", "district": "Wokha", "state": "Nagaland", "latitude": 26.1, "longitude": 94.27, "slope_deg": 27, "soil_type": "loamy", "vegetation_ndvi": 0.7, "slope_modified": true},
+    {"name": "Mon", "district": "Mon", "state": "Nagaland", "latitude": 26.73, "longitude": 95.03, "slope_deg": 25, "soil_type": "loamy", "vegetation_ndvi": 0.7, "slope_modified": true},
+    {"name": "Phek", "district": "Phek", "state": "Nagaland", "latitude": 25.66, "longitude": 94.47, "slope_deg": 29, "soil_type": "loamy", "vegetation_ndvi": 0.65, "slope_modified": true},
+
+    {"name": "Gangtok", "district": "Gangtok", "state": "Sikkim", "latitude": 27.33, "longitude": 88.612, "slope_deg": 33, "soil_type": "loamy", "vegetation_ndvi": 0.55, "slope_modified": true},
+    {"name": "Mangan", "district": "Mangan", "state": "Sikkim", "latitude": 27.509, "longitude": 88.529, "slope_deg": 38, "soil_type": "loamy", "vegetation_ndvi": 0.6, "slope_modified": true},
+    {"name": "Chungthang", "district": "Mangan", "state": "Sikkim", "latitude": 27.603, "longitude": 88.645, "slope_deg": 40, "soil_type": "rock", "vegetation_ndvi": 0.5, "slope_modified": true},
+    {"name": "Namchi", "district": "Namchi", "state": "Sikkim", "latitude": 27.167, "longitude": 88.364, "slope_deg": 26, "soil_type": "loamy", "vegetation_ndvi": 0.55, "slope_modified": true},
+    {"name": "Gyalshing", "district": "Gyalshing", "state": "Sikkim", "latitude": 27.289, "longitude": 88.258, "slope_deg": 27, "soil_type": "loamy", "vegetation_ndvi": 0.6, "slope_modified": true},
+
+    {"name": "Agartala", "district": "West Tripura", "state": "Tripura", "latitude": 23.831, "longitude": 91.287, "slope_deg": 2, "soil_type": "clay", "vegetation_ndvi": 0.45, "slope_modified": false},
+    {"name": "Udaipur", "district": "Gomati", "state": "Tripura", "latitude": 23.533, "longitude": 91.483, "slope_deg": 4, "soil_type": "clay", "vegetation_ndvi": 0.5, "slope_modified": false},
+    {"name": "Ambassa", "district": "Dhalai", "state": "Tripura", "latitude": 23.93, "longitude": 91.85, "slope_deg": 12, "soil_type": "loamy", "vegetation_ndvi": 0.65, "slope_modified": false},
+    {"name": "Dharmanagar", "district": "North Tripura", "state": "Tripura", "latitude": 24.367, "longitude": 92.167, "slope_deg": 5, "soil_type": "clay", "vegetation_ndvi": 0.55, "slope_modified": false}
+  ]
+}
