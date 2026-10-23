@@ -1,0 +1,31 @@
+# Render Blueprint for the LandslideGuard AI backend (FastAPI).
+# Render: New + > Blueprint > select this repository. Secrets are generated or entered in the
+# Render dashboard - never committed. See README "Deployment" for details and free-plan limits.
+services:
+  - type: web
+    name: landslideguard-api
+    runtime: python
+    plan: free
+    region: singapore          # closest Render region to India
+    rootDir: backend           # the FastAPI app lives in backend/app
+    buildCommand: pip install -r requirements.txt
+    # Must listen on 0.0.0.0 and Render's $PORT, otherwise Render cannot route traffic to it.
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.8          # same version the tests and the ML model artifact were built with
+      - key: ENVIRONMENT
+        value: production      # refuses to start without a strong ADMIN_PASSWORD and SECRET_KEY
+      - key: SECRET_KEY
+        generateValue: true    # random, stable across restarts
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        sync: false            # you are asked for it when the Blueprint is created
+      - key: CORS_ORIGINS
+        value: https://landslide-guard-ai-plum.vercel.app
+      - key: WEATHER_PROVIDER
+        value: open-meteo
+      - key: SEED_DEMO_DATA
+        value: "true"

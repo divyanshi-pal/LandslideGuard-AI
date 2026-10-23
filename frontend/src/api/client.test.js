@@ -50,6 +50,13 @@ describe('request', () => {
     expect(err.message).toMatch(/Cannot reach/)
   })
 
+  it('rejects an HTML page returned instead of JSON', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, status: 200, text: async () => '<!doctype html><html></html>' })))
+    const err = await request('/api/meta').catch((e) => e)
+    expect(err).toBeInstanceOf(ApiError)
+    expect(err.message).toMatch(/expected JSON/)
+  })
+
   it('returns null for 204 responses', async () => {
     mockFetch(204)
     expect(await request('/api/admin/reports/1', { method: 'DELETE' })).toBeNull()

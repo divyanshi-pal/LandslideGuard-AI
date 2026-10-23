@@ -76,17 +76,32 @@ class Settings(BaseSettings):
 
     @property
     def cors_origin_list(self) -> list[str]:
-        return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
+        # Browsers send Origin without a trailing slash, so "https://x.vercel.app/" must not break CORS.
+        return [o.strip().rstrip("/") for o in self.cors_origins.split(",") if o.strip()]
+
+    @property
+    def uses_local_sqlite(self) -> bool:
+        return self.database_url.startswith("sqlite")
 
 
-@lru_cache
-def get_settings() -> Settings:
-    settings = Settings()
-    if not settings.secret_key:
+def validate_settings(settings: Settings) -> Settings:
+    """Fill safe development defaults; refuse to start production with unsafe ones."""
+    if settings.environment == "production":
+        problems = []
+        if not settings.secret_key or len(settings.secret_key) < 32:
+            problems.append("SECRET_KEY must be set to a random value of at least 32 characters")
+        if settings.admin_password in ("", "change-me-now") or len(settings.admin_password) < 10:
+            problems.append("ADMIN_PASSWORD must be set to a strong password (at least 10 characters)")
+        if problems:
+            raise RuntimeError("Unsafe production configuration: " + "; ".join(problems))
+    elif not settings.secret_key:
         # A per-process random key: admin tokens stop working after a restart.
         settings.secret_key = secrets.token_urlsafe(32)
         if settings.environment != "test":
             logger.warning("SECRET_KEY not set - using a random key for this process only.")
-    if settings.admin_password == "change-me-now" and settings.environment == "production":
-        raise RuntimeError("Set ADMIN_PASSWORD before running in production.")
     return settings
+
+
+@lru_cache
+def get_settings() -> Settings:
+    return validate_settings(Settings())

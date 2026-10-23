@@ -2,6 +2,9 @@
 
 export const API_BASE = (import.meta.env?.VITE_API_BASE_URL ?? '').replace(/\/$/, '')
 const TOKEN_KEY = 'landslideguard.adminToken'
+const MISSING_BASE_MESSAGE =
+  'This website was built without VITE_API_BASE_URL, so it cannot reach the LandslideGuard API. ' +
+  'Set it to the backend URL in the hosting settings and redeploy.'
 
 export class ApiError extends Error {
   constructor(message, status, detail) {
@@ -83,9 +86,18 @@ export async function request(path, { method = 'GET', json, form, auth = false, 
   } catch {
     data = text
   }
+  // A production build without VITE_API_BASE_URL calls its own host, which has no API.
+  const missingBase = !API_BASE && import.meta.env?.PROD
   if (!resp.ok) {
     const detail = data && typeof data === 'object' ? data.detail : data
+    if (missingBase && resp.status === 404 && typeof data === 'string') {
+      throw new ApiError(MISSING_BASE_MESSAGE, 404, detail)
+    }
     throw new ApiError(errorMessage(detail, `Request failed (${resp.status})`), resp.status, detail)
+  }
+  if (typeof data === 'string') {
+    // Every API endpoint returns JSON; HTML here means the request reached a website, not the API.
+    throw new ApiError(missingBase ? MISSING_BASE_MESSAGE : 'Unexpected response from the API (expected JSON).', resp.status)
   }
   return data
 }

@@ -30,6 +30,7 @@ A landslide risk monitoring and early-warning **prototype**. It has two parts wi
 10. [Project structure](#10-project-structure)
 11. [Known limitations](#11-known-limitations)
 12. [Troubleshooting](#12-troubleshooting)
+13. [Deployment (Render + Vercel)](#13-deployment-render--vercel)
 
 ---
 
@@ -564,3 +565,71 @@ FastAPI, SQLAlchemy 2, Pydantic 2, scikit-learn, SQLite.
 | "Use my location" fails when opened via `http://192.168.x.x:5173` | Browsers allow geolocation only on `https://` or `localhost`. Use the map or typed coordinates, or serve over HTTPS |
 | Report rejected with "outside India" | Check the coordinates are decimal degrees (e.g. `31.1048`, `77.1734`), with latitude first |
 | Something went wrong after an upgrade | Stop the backend and copy `landslideguard.db.backup-<time>` over `landslideguard.db` |
+
+## 13. Deployment (Render + Vercel)
+
+The backend runs as a Render **Web Service** and the frontend as a Vercel project. Both are configured
+from this repository; no secrets are committed.
+
+### Backend on Render
+
+**Option A – Blueprint (recommended):** in Render choose **New + → Blueprint**, select this repository,
+and Render reads [`render.yaml`](render.yaml). It asks for `ADMIN_PASSWORD` and generates a stable
+`SECRET_KEY`.
+
+**Option B – existing Web Service:** open the service → **Settings**, and make sure these match exactly:
+
+| Setting | Value |
+|---|---|
+| Root Directory | `backend` |
+| Build Command | `pip install -r requirements.txt` |
+| Start Command | `uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
+| Health Check Path | `/api/health` |
+
+The start command must include `--host 0.0.0.0 --port $PORT`. The local command
+(`uvicorn app.main:app --port 8000`) listens only on `127.0.0.1:8000`, and Render cannot route traffic
+to it.
+
+Environment variables (Service → **Environment**):
+
+| Key | Value |
+|---|---|
+| `PYTHON_VERSION` | `3.11.8` (also set by `backend/.python-version`) |
+| `ENVIRONMENT` | `production`. The app then refuses to start without the two secrets below |
+| `SECRET_KEY` | a random value of at least 32 characters. Generate one with `python -c "import secrets; print(secrets.token_urlsafe(48))"`. Keep it stable, or admins are logged out on every restart |
+| `ADMIN_PASSWORD` | a strong password (at least 10 characters). Never commit it |
+| `CORS_ORIGINS` | `https://landslide-guard-ai-plum.vercel.app` (comma-separate to add more origins) |
+| `WEATHER_PROVIDER` | `open-meteo` (or `demo`) |
+| `SEED_DEMO_DATA` | `true` |
+
+Check it: `https://<your-service>.onrender.com/api/health` must return `{"status":"ok",...}`, and
+`/docs` must open the API docs.
+
+If every URL returns plain-text `Not Found` with the response header `x-render-routing: no-server`, the
+request is not reaching the app at all. Check the service's latest deploy in **Events** and **Logs**,
+the settings above, and that the service is not suspended.
+
+### Frontend on Vercel
+
+| Setting | Value |
+|---|---|
+| Root Directory | `frontend` |
+| Framework preset | Vite (build `npm run build`, output `dist`) |
+| Environment variable | `VITE_API_BASE_URL` = `https://<your-service>.onrender.com` (no trailing slash), enabled for Production and Preview |
+
+`VITE_API_BASE_URL` is compiled into the JavaScript at **build** time, so redeploy after setting or
+changing it. [`frontend/vercel.json`](frontend/vercel.json) makes direct links such as `/dashboard`
+or `/reports/6` load the app instead of a 404 page.
+
+### Free-plan limits (important)
+
+- **No persistent storage on Render's free plan.** The SQLite database and uploaded photos/videos live on
+  the instance's local disk, which is wiped on every redeploy, restart and spin-down (free services sleep
+  after about 15 minutes without traffic). Demo data is re-seeded on each start; **citizen reports and
+  uploads are lost**.
+  - For lasting data, use a paid instance with a persistent disk mounted at e.g. `/var/data`, and set
+    `DATABASE_URL=sqlite:////var/data/landslideguard.db` and `UPLOAD_DIR=/var/data/uploads`.
+  - PostgreSQL via `DATABASE_URL` is possible but **not tested**, and uploads would still need
+    persistent storage.
+- **Cold starts:** the first request after the service sleeps can take about a minute.
+- This is a **prototype with demo data**, not an official warning service.

@@ -33,6 +33,15 @@ FRONTEND_DIST = BACKEND_DIR.parent / "frontend" / "dist"
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    # Non-secret configuration summary - useful in hosting logs (e.g. Render).
+    logger.info("Environment: %s | CORS origins: %s | weather: %s", settings.environment,
+                ", ".join(settings.cors_origin_list) or "(none)", settings.weather_provider)
+    if settings.environment == "production" and settings.uses_local_sqlite:
+        logger.warning(
+            "Using SQLite at %s and uploads at %s. On hosts with an ephemeral filesystem (such as Render's "
+            "free plan) both are wiped on every restart or redeploy - use a persistent disk or an external "
+            "database for real data.", settings.database_url.split("///")[-1], settings.upload_dir,
+        )
     result = init_db()
     if result.applied:
         logger.info("Database migrations applied: %s (backup: %s)", result.applied, result.backup)
